@@ -10,8 +10,12 @@ void eliminarCubo(int***);
 void llenarCubo(int***);
 int Menu(int, int);
 void Posiciones(int***);
+bool ataqueNormal(int***, int, int, int);
+void ataqueWave(int, int, int***);
 
 int main(int argc, char*argv[]){
+	int*** c1;
+	int*** c2;
 	bool ganador=false;
 	int wave=3, expansive=3;
 	int x,y,z;
@@ -81,9 +85,9 @@ void llenarCubo (int*** cubo){
 	int r1, r2, r3;
 	srand(time(NULL));
 	for (int i=0; i<15; i++){
-		r1=1+rand()%(13-1);
-		r2=1+rand()%(13-1);
-		r3=1+rand()%(13-1);
+		r1=rand()%(12);
+		r2=rand()%(12);
+		r3=rand()%(12);
 		cubo[r1][r2][r3]=1;	
 	}
 	return;
@@ -130,4 +134,37 @@ bool ataqueNormal (int*** cubo, int x, int y, int z){
 		return ataco;
 }
 
+void ataqueWave (int ataque, int num, int*** cubo){
+	if(ataque==1){//ataque en xy
+		for(int i=0; i<12; i++){
+			for(int j=0; j<12; j++){
+				if(cubo[i][j][num]==1){
+					cout<<"Submarino en ("<<i<<","<<j<<","<<num<<") destruido"<<endl;
+				}else{
+					cout<<"Nada que destruir"<<endl;
+				}
+			}
+		}
+	}else if(ataque==2){//ataque en xz
+		for(int i=0; i<12; i++){
+                        for(int j=0; j<12; j++){
+                                if(cubo[i][num][j]==1){
+                                        cout<<"Submarino en ("<<i<<","<<num<<","<<j<<") destruido"<<endl;
+                                }else{
+                                        cout<<"Nada que destruir"<<endl;
+                                }
+                        }
+                }
+	}else{//ataque en yz
+		for(int i=0; i<12; i++){
+                        for(int j=0; j<12; j++){
+                                if(cubo[num][i][j]==1){
+                                        cout<<"Submarino en ("<<num<<","<<i<<","<<j<<") destruido"<<endl;
+                                }else{
+                                        cout<<"Nada que destruir"<<endl;
+                                }
+                        }
+                }
 
+	}
+}
