@@ -140,6 +140,7 @@ void ataqueWave (int ataque, int num, int*** cubo){
 			for(int j=0; j<12; j++){
 				if(cubo[i][j][num]==1){
 					cout<<"Submarino en ("<<i<<","<<j<<","<<num<<") destruido"<<endl;
+					cubo[i][j][num]=0;
 				}else{
 					cout<<"Nada que destruir"<<endl;
 				}
@@ -150,6 +151,7 @@ void ataqueWave (int ataque, int num, int*** cubo){
                         for(int j=0; j<12; j++){
                                 if(cubo[i][num][j]==1){
                                         cout<<"Submarino en ("<<i<<","<<num<<","<<j<<") destruido"<<endl;
+					cubo[i][num][j]=0;
                                 }else{
                                         cout<<"Nada que destruir"<<endl;
                                 }
@@ -160,6 +162,7 @@ void ataqueWave (int ataque, int num, int*** cubo){
                         for(int j=0; j<12; j++){
                                 if(cubo[num][i][j]==1){
                                         cout<<"Submarino en ("<<num<<","<<i<<","<<j<<") destruido"<<endl;
+					cubo[num][i][j]=0;
                                 }else{
                                         cout<<"Nada que destruir"<<endl;
                                 }
@@ -167,4 +170,5 @@ void ataqueWave (int ataque, int num, int*** cubo){
                 }
 
 	}
+	return;
 }
