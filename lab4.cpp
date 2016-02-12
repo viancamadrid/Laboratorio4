@@ -8,10 +8,30 @@ using std::endl;
 int*** crearCubo();
 void eliminarCubo(int***);
 void llenarCubo(int***);
+void expensive(int***,int,int,int);
 
 int main(int argc, char*argv[]){
-	int*** h;
-	h=crearCubo();	
+	int*** cubo1;
+	int*** cubo2;
+	cout<<"paso1"<<endl;
+	cubo1=crearCubo();
+	cubo2=crearCubo();
+	cout<<"paso2"<<endl;
+	llenarCubo(cubo1);
+	llenarCubo(cubo2);
+	cout<<"paso3"<<endl;
+	for(int i=0;i<12;i++){
+		for(int j=0;j<12;j++){
+			for(int k=0;k<12;k++){
+				cout<<cubo1[i][j][k]<<"-";
+			}
+			cout<<endl;
+		}	
+		cout<<endl;
+	}
+	//parte de delete
+	eliminarCubo(cubo1);
+	eliminarCubo(cubo2);	
 	return 0;
 }
 
@@ -64,3 +84,17 @@ void eliminarCubo(int*** cubo){
 }
 //fin funcion para eliminar el cubo 
 
+void expansive(int*** cubo,int x,int y,int z){
+	for(int i=x-1;i<x+2;i++){
+		for(int j=y-1;j<+2;j++){
+			for(int k=z-1;k<z+2;++k){
+				if(cubo[i][j][k]==1){
+					cubo[i][j][k]=0;
+					cout<<"Submarino en {"<<x<<","<<y<<","<<z<<"} destruido"<<endl;
+				}else{
+					cout<<"Nada que destruir"<<endl;
+				}
+			}
+		}
+	}
+}
