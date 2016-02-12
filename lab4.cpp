@@ -64,3 +64,13 @@ void eliminarCubo(int*** cubo){
 }
 //fin funcion para eliminar el cubo 
 
+bool ataqueNormal (int*** cubo, int x, int y, int z){
+	bool ataco=false;
+	if(cubo[x][y][z]==1){
+		ataco=true;
+		return ataco;
+	}
+	else
+		return ataco;
+}
+
