@@ -205,7 +205,7 @@ int Menu(int wave,int expansive){
 		cout<< endl<< "3. Ataque wave en XZ";
 		cout<< endl<< "4. Ataque wave en YZ";
 	}
-	if(wave>0){
+	if(expansive>0){
 		cout<< endl<< "5. Ataque Expansive"<< endl;
 	}
 	cout<< "WAVE DISPONIBLES: "<< wave << endl;
