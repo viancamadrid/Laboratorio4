@@ -10,21 +10,23 @@ void eliminarCubo(int***);
 void llenarCubo(int***);
 int Menu(int, int);
 void Posiciones(int***);
+bool Ganador(int, int***);
+int validacionVariable();
 
 int main(int argc, char*argv[]){
 	bool ganador=false;
 	int wave=3, expansive=3;
 	int x,y,z;
-	
+	int jugadorCont=1;
 	while(ganador==false){
 		int menu = Menu(wave, expansive);
 		if(menu == 1){
 			cout<< "X: ";
-			cin>>x;	
+			x=validacionVariable();	
 			cout<< "Y: ";
-			cin>>y;
+			y=validacionVariable();
 			cout<< "Z: ";
-			cin>>z;
+			z=validacionVariable();
 		}
 		if((menu >1) && (menu < 5)){
 			wave--;	
@@ -32,10 +34,29 @@ int main(int argc, char*argv[]){
 		if(menu == 5){
 			expansive--;
 		}
-		
-							
+		//Hay que poner la funcion de contador de Submarinos
+		//ganador = Ganador(jugadorCont,cubo);
+		//jugadorCont++;							
 	}
+
+	/*
+	if(jugadorCont%2==0){
+		cout<< "Jugador 1 GANADOR!"					
+	}else{
+		cout<< "Jugador 2 GANADOR!"
+	}
+	*/
 	return 0;
+}
+
+int validacionVariable(){
+	int variable;
+	cin >>variable;
+	while(!((variable<12)&&(variable>=0))){
+		cout << "Error, el numero debe estar entre el rango (0 - 11): ";
+		cin >> variable;
+	}
+	return variable;
 }
 
 void Posiciones(int*** cubo){// Aqui lee el cubo e imprime las posiciones
@@ -51,6 +72,21 @@ void Posiciones(int*** cubo){// Aqui lee el cubo e imprime las posiciones
         }
 
 }
+
+int contadorSubmarinos (int*** cubo){// funcion que cuenta el numero de submarinos
+        int contador=0;
+	for(int i=0; i<12; i++){
+                for(int j=0; j<12; j++){
+                        for(int k=0; k<12; k++){
+                                if(cubo[i][j][k]==1){
+                                        contador++;
+                                }
+                        }
+                }
+        }
+	return contador;
+}
+
 
 int Menu(int wave,int expansive){	
 	int menu;// aqui solamente lee e imprime el menu inicial
@@ -117,4 +153,20 @@ void eliminarCubo(int*** cubo){
         }
 	delete[] cubo;
 }
-//fin funcion para eliminar el cubo 
+//fin funcion para eliminar el cubo
+
+bool Ganador(int cont, int*** cubo){//Funcion que valida si hubo un ganador.
+	bool ganador = true;
+	for(int i=0; i<12; i++){
+                for(int j=0; j<12; j++){
+                        for(int k=0; k<12; k++){
+                                if(cubo[i][j][k]== 1){
+                                        ganador = false;
+                                }
+                        }
+                }
+        }
+	return ganador;		
+}
+
+
