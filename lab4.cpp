@@ -18,7 +18,8 @@ int main(int argc, char*argv[]){
 	int*** c1;
 	int*** c2;
 	bool ganador=false;
-        int wave=3, expansive=3;
+        int wave1=3, expansive1=3;
+	int wave2=3, expansive2=3;
         int x,y,z;
 	
 	//creacion de los dos cubos
@@ -33,7 +34,7 @@ int main(int argc, char*argv[]){
 		if(iterador%2==0){
 			cout<<"----------------------------------------Mapa de submarinos de Player 1--------------------------------"<<endl;
 			Posiciones(cubo1);
-			int menu = Menu(wave, expansive);
+			int menu = Menu(wave1, expansive1);
 	                if(menu == 1){
         	                cout<< "X: ";
                 	        cin>>x;
@@ -41,7 +42,7 @@ int main(int argc, char*argv[]){
                         	cin>>y;
                         	cout<< "Z: ";
                         	cin>>z;
-				bool boom=ataqueNormal(cubo1,x,y,z);
+				bool boom=ataqueNormal(cubo2,x,y,z);
 				if(boom){
 					cout<<"Submarino Destruido en ("<<x<<","<<y<<","<<z<<")"<<endl;
 				}else{
@@ -53,17 +54,17 @@ int main(int argc, char*argv[]){
                         	if(menu==2){
 					cout<<"Z: ";
 					cin>>coor;
-					ataqueWave(2,coor,cubo1); 
+					ataqueWave(2,coor,cubo2); 
 				}else if(menu==3){
 					cout<<"Y: ";
                                         cin>>coor;
-                                        ataqueWave(3,coor,cubo1);
+                                        ataqueWave(3,coor,cubo2);
 				}else{
 					cout<<"X: ";
                                         cin>>coor;
-                                        ataqueWave(4,coor,cubo1);
+                                        ataqueWave(4,coor,cubo2);
 				}
-				wave--;
+				wave1--;
                 	}
                 	if(menu == 5){
 				bool expa=false;
@@ -81,13 +82,13 @@ int main(int argc, char*argv[]){
 						cout<<"Posicion que ingreso no se puede hacer expansive"<<endl;
 					}
 				}
-                        	expansive--;
+                        	expansive1--;
                 	}
 			
 		}else{
 			cout<<"----------------------------------------Mapa de submarinos de Player 2--------------------------------"<<endl;
 			Posiciones(cubo2);
-			int menu = Menu(wave, expansive);
+			int menu = Menu(wave2, expansive2);
 			if(menu == 1){
 				cout<< "X: ";
 				cin>>x;	
@@ -95,7 +96,7 @@ int main(int argc, char*argv[]){
 				cin>>y;
 				cout<< "Z: ";
 				cin>>z;
-				bool boom=ataqueNormal(cubo2,x,y,z);
+				bool boom=ataqueNormal(cubo1,x,y,z);
                                 if(boom){
                                         cout<<"Submarino Destruido en ("<<x<<","<<y<<","<<z<<")"<<endl;
                                 }else{
@@ -108,18 +109,18 @@ int main(int argc, char*argv[]){
                                 if(menu==2){
                                         cout<<"Z: ";
                                         cin>>coor;
-                                        ataqueWave(2,coor,cubo2);
+                                        ataqueWave(2,coor,cubo1);
                                 }else if(menu==3){
                                         cout<<"Y: ";
                                         cin>>coor;
-                                        ataqueWave(3,coor,cubo2);
+                                        ataqueWave(3,coor,cubo1);
                                 }else{
                                         cout<<"X: ";
                                         cin>>coor;
-                                        ataqueWave(4,coor,cubo2);
+                                        ataqueWave(4,coor,cubo1);
                                 }
 
-				wave--;	
+				wave2--;	
 			}
 			if(menu == 5){
 				bool expa=false;
@@ -137,11 +138,11 @@ int main(int argc, char*argv[]){
                                                 cout<<"Posicion que ingreso no se puede hacer expansive"<<endl;
                                         }
                                 }
-				expansive--;
+				expansive2--;
 			}
 		}
 		iterador++;	
-		ganador=true;				
+		//ganador=true;				
 	}
 	//parte de delete
         eliminarCubo(cubo1);
