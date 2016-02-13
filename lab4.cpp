@@ -247,6 +247,7 @@ void Expensive(int*** cubo,int x,int y,int z){
 bool ataqueNormal (int*** cubo, int x, int y, int z){
 	bool ataco=false;
 	if(cubo[x][y][z]==1){
+		cubo[x][y][z]=0;
 		ataco=true;
 		return ataco;
 	}
