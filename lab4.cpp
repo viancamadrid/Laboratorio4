@@ -8,6 +8,7 @@ using std::endl;
 int*** crearCubo();
 void eliminarCubo(int***);
 void llenarCubo(int***);
+void Expensive(int***,int,int,int);
 int Menu(int, int);
 void Posiciones(int***);
 bool ataqueNormal(int***, int, int, int);
@@ -17,33 +18,139 @@ int main(int argc, char*argv[]){
 	int*** c1;
 	int*** c2;
 	bool ganador=false;
-	int wave=3, expansive=3;
-	int x,y,z;
+        int wave=3, expansive=3;
+        int x,y,z;
 	
+	//creacion de los dos cubos
+	int*** cubo1;
+	int*** cubo2;
+	cubo1=crearCubo();
+	cubo2=crearCubo();
+	llenarCubo(cubo1);
+	llenarCubo(cubo2);
+	int iterador=0;
 	while(ganador==false){
-		int menu = Menu(wave, expansive);
-		if(menu == 1){
-			cout<< "X: ";
-			cin>>x;	
-			cout<< "Y: ";
-			cin>>y;
-			cout<< "Z: ";
-			cin>>z;
+		if(iterador%2==0){
+			cout<<"----------------------------------------Mapa de submarinos de Player 1--------------------------------"<<endl;
+			Posiciones(cubo1);
+			int menu = Menu(wave, expansive);
+	                if(menu == 1){
+        	                cout<< "X: ";
+                	        cin>>x;
+                       		cout<< "Y: ";
+                        	cin>>y;
+                        	cout<< "Z: ";
+                        	cin>>z;
+				bool boom=ataqueNormal(cubo1,x,y,z);
+				if(boom){
+					cout<<"Submarino Destruido en ("<<x<<","<<y<<","<<z<<")"<<endl;
+				}else{
+					cout<<"Nada que Destruir"<<endl;
+				}
+               		}	
+                	if((menu >1) && (menu < 5)){
+				int coor;
+                        	if(menu==2){
+					cout<<"Z: ";
+					cin>>coor;
+					ataqueWave(2,coor,cubo1); 
+				}else if(menu==3){
+					cout<<"Y: ";
+                                        cin>>coor;
+                                        ataqueWave(3,coor,cubo1);
+				}else{
+					cout<<"X: ";
+                                        cin>>coor;
+                                        ataqueWave(4,coor,cubo1);
+				}
+				wave--;
+                	}
+                	if(menu == 5){
+				bool expa=false;
+				while(expa==false){
+					cout<< "X: ";
+                                	cin>>x;
+                                	cout<< "Y: ";
+                                	cin>>y;
+                                	cout<< "Z: ";
+                                	cin>>z;
+					if((x>=1&&x<=10)&&(y>=1&&y<=10)&&(z>=1&&z<=10)){
+						expa=true;
+						Expensive(cubo2,x,y,z);
+					}else{
+						cout<<"Posicion que ingreso no se puede hacer expansive"<<endl;
+					}
+				}
+                        	expansive--;
+                	}
+			
+		}else{
+			cout<<"----------------------------------------Mapa de submarinos de Player 2--------------------------------"<<endl;
+			Posiciones(cubo2);
+			int menu = Menu(wave, expansive);
+			if(menu == 1){
+				cout<< "X: ";
+				cin>>x;	
+				cout<< "Y: ";
+				cin>>y;
+				cout<< "Z: ";
+				cin>>z;
+				bool boom=ataqueNormal(cubo2,x,y,z);
+                                if(boom){
+                                        cout<<"Submarino Destruido en ("<<x<<","<<y<<","<<z<<")"<<endl;
+                                }else{
+                                        cout<<"Nada que Destruir"<<endl;
+                                }
+
+			}
+			if((menu >1) && (menu < 5)){
+				int coor;
+                                if(menu==2){
+                                        cout<<"Z: ";
+                                        cin>>coor;
+                                        ataqueWave(2,coor,cubo2);
+                                }else if(menu==3){
+                                        cout<<"Y: ";
+                                        cin>>coor;
+                                        ataqueWave(3,coor,cubo2);
+                                }else{
+                                        cout<<"X: ";
+                                        cin>>coor;
+                                        ataqueWave(4,coor,cubo2);
+                                }
+
+				wave--;	
+			}
+			if(menu == 5){
+				bool expa=false;
+                                while(expa==false){
+                                        cout<< "X: ";
+                                        cin>>x;
+                                        cout<< "Y: ";
+                                        cin>>y;
+                                        cout<< "Z: ";
+                                        cin>>z;
+                                        if((x>=1&&x<=10)&&(y>=1&&y<=10)&&(z>=1&&z<=10)){
+                                                expa=true;
+                                                Expensive(cubo1,x,y,z);
+                                        }else{
+                                                cout<<"Posicion que ingreso no se puede hacer expansive"<<endl;
+                                        }
+                                }
+				expansive--;
+			}
 		}
-		if((menu >1) && (menu < 5)){
-			wave--;	
-		}
-		if(menu == 5){
-			expansive--;
-		}
-		
-							
+		iterador++;	
+		ganador=true;				
 	}
+	//parte de delete
+        eliminarCubo(cubo1);
+        eliminarCubo(cubo2);
+        //fin delete
 	return 0;
 }
 
 void Posiciones(int*** cubo){// Aqui lee el cubo e imprime las posiciones
-	cout<< "--------------------MAPA DE SUBMARINOS-----------------------"<< endl;
         for(int i=0; i<12; i++){
                 for(int j=0; j<12; j++){
                         for(int k=0; k<12; k++){
@@ -53,7 +160,6 @@ void Posiciones(int*** cubo){// Aqui lee el cubo e imprime las posiciones
                         }
                 }
         }
-
 }
 
 int Menu(int wave,int expansive){	
@@ -94,7 +200,6 @@ void llenarCubo (int*** cubo){
 }
 
 
-//funcion para crear el cubo
 int*** crearCubo(){
 	int*** cubo= new int**[12];
 	for(int i=0;i<12;i++){
@@ -102,14 +207,12 @@ int*** crearCubo(){
 	}
 	for(int i=0;i<12;i++){
 		for(int j=0;j<12;j++){
-			cubo[i][j]= new int[12];
+			cubo[i][j]= new int[12];		
 		}	
 	}
 	return cubo;
 }
-//fin funcion para crear el cubo
 
-//funcion para eliminar el cubo
 void eliminarCubo(int*** cubo){
 	for(int i=0;i<12;i++){
                 for(int j=0;j<12;j++){
@@ -120,6 +223,23 @@ void eliminarCubo(int*** cubo){
                	delete[] cubo[i];
         }
 	delete[] cubo;
+	return;
+} 
+
+void Expensive(int*** cubo,int x,int y,int z){
+	for(int i=x-1;i<x+2;i++){
+		for(int j=y-1;j<y+2;j++){
+			for(int k=z-1;k<z+2;++k){
+				if(cubo[i][j][k]==1){
+					cubo[i][j][k]=0;
+					cout<<"Submarino en {"<<i<<","<<j<<","<<k<<"} destruido"<<endl;
+				}else{
+					cout<<"Nada que destruir"<<endl;
+				}
+			}
+		}
+	}
+	return;
 }
 //fin funcion para eliminar el cubo 
 
@@ -135,7 +255,7 @@ bool ataqueNormal (int*** cubo, int x, int y, int z){
 }
 
 void ataqueWave (int ataque, int num, int*** cubo){
-	if(ataque==1){//ataque en xy
+	if(ataque==2){//ataque en xy
 		for(int i=0; i<12; i++){
 			for(int j=0; j<12; j++){
 				if(cubo[i][j][num]==1){
@@ -146,7 +266,7 @@ void ataqueWave (int ataque, int num, int*** cubo){
 				}
 			}
 		}
-	}else if(ataque==2){//ataque en xz
+	}else if(ataque==3){//ataque en xz
 		for(int i=0; i<12; i++){
                         for(int j=0; j<12; j++){
                                 if(cubo[i][num][j]==1){
@@ -172,3 +292,4 @@ void ataqueWave (int ataque, int num, int*** cubo){
 	}
 	return;
 }
+
